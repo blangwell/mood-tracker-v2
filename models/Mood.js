@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const moodSchema = new mongoose.Schema({
+	userId: Number,
 	date: Date,
 	sleep: Number,
 	depressed: Number,
@@ -11,4 +12,5 @@ const moodSchema = new mongoose.Schema({
 	therapy: Boolean,
 });
 
-exports.Mood = mongoose.model('Mood', moodSchema);
+const Mood = mongoose.model('Mood', moodSchema);
+module.exports = Mood;

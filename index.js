@@ -1,32 +1,29 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
 const controllers = require(path.join(__dirname, 'controllers', 'index.js'));
-const MONGO_URI = process.env.MONGO_URI_LOCAL;
+const passport = require('passport');
+const session = require('express-session');
+const cors = require('cors');
+const db = require('./models');
 
 const app = express();
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+// app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
+// app.use(passport.initialize())
+// app.use(passport.session());
 
 
+// ROUTES
 app.get('/', controllers.getHome);
-
-mongoose.connection.on('connecting', () => {
-	console.log(`connecting to mongo...`);
-});
-mongoose.connection.on('connected', () => {
-	console.log(`connected to mongo at ${MONGO_URI}`);
-});
-mongoose.connection.on('error', err => {
-	console.error(err);
-});
+app.get('/login', controllers.getLogin);
+app.post('/login', controllers.postLogin);
+app.post('/newuser', controllers.postNewUser);
 
 app.listen(process.env.PORT, async () => {
-	try {
-		await mongoose.connect(MONGO_URI);
-		console.log(`listenin' on port ${process.env.PORT}`);
-	} catch (err) {
-		console.error(err);
-	}
+	console.log(`listenin' on port ${process.env.PORT}`);
 });
