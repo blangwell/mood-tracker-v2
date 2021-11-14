@@ -1,4 +1,7 @@
 const Mood = require('../models/Mood');
+const endOfDay = require('date-fns/endOfDay');
+const startOfDay = require('date-fns/startOfDay');
+const parseISO = require('date-fns/parseISO');
 
 exports.getAllMoods = async (req, res) => {
 	let allMoods = await Mood.find({ userId: req.user.id });
@@ -8,15 +11,14 @@ exports.getAllMoods = async (req, res) => {
 exports.postMood = async (req, res) => {
 	// check if date entry already exists
 	// if so, update. if not, create
-	let today = new Date();
-	let tomorrow = new Date(today);
+	let tomorrow = new Date();
 	tomorrow.setDate(tomorrow.getDate() + 1);
 
 	let todaysMood = await Mood.findOneAndUpdate({ 
 		userId: "618daf6ecbe6b21869145f9e",
 		date: {
-			$gte: today.toISOString(),
-			$lt: tomorrow.toISOString()
+			$gte: startOfDay(parseISO(req.body.date)),
+			$lt: endOfDay(parseISO(req.body.date))
 		}
 	}, {  
 		date: req.body.date,
@@ -27,7 +29,10 @@ exports.postMood = async (req, res) => {
 		anxious: req.body.anxious,
 		psychotic: req.body.psychotic,
 		therapy: req.body.therapy,
-	}, { new: true, upsert: true });
-
+	}, {
+		new: true,
+		upsert: true 
+	});
+	
 	res.json(todaysMood);
 };

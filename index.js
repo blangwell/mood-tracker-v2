@@ -24,18 +24,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/ppConfig')(passport);
 
-// ROUTES
+// ENDPOINTS
 app.get('/', controllers.getHome);
 
+// auth endpoints
 app.get('/login', authControllers.getLogin);
 app.post('/login', authControllers.postLogin);
 app.get('/logout', authControllers.getLogout);
 app.post('/newuser', authControllers.postNewUser);
 // app.post('/updateuser', authControllers.postUpdateUser);
+
+// mood endpoints
 app.get('/allmoods', moodControllers.getAllMoods);
 app.post('/mood', moodControllers.postMood);
-
-app.get('/allmoods', )
 
 app.listen(process.env.PORT, async () => {
 	console.log(`listenin' on port ${process.env.PORT}`);
