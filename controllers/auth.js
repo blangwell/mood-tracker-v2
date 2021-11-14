@@ -35,3 +35,13 @@ exports.postNewUser = (req, res) => {
 		});
 	}
 };
+
+// exports.postUpdateUser = async (req, res) => {
+// 	console.log(req.user.id);
+// 	try {
+// 		let foundUser = await User.findOne({ id: req.user.id })
+// 		res.json(foundUser);
+// 	} catch (err) {
+// 		res.redirect('/login');
+// 	}
+// }

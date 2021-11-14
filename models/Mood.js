@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const moodSchema = new mongoose.Schema({
-	userId: Number,
+	userId: String,
 	date: Date,
 	sleep: Number,
 	depressed: Number,
