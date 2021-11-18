@@ -2,14 +2,27 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const User = require('../models/User');
 
+exports.getUser = (req, res) => {
+	res.send(req.user);
+}
+
 exports.getLogin = (req, res) => {
 	res.send('GET login route');
 };
 
-exports.postLogin = passport.authenticate('local', { 
-	failureRedirect: '/login',
-	successRedirect: '/'
-});
+exports.postLogin = (req, res, next) => {
+	passport.authenticate('local', (err, user, info) => {
+		if (err) { throw err; }
+		if (!user) {
+			res.send('');
+		} else {
+			req.logIn(user, err => {
+				if (err) { throw err; }
+				res.json(req.user);
+			});
+		}
+	})(req, res, next);
+}
 
 exports.getLogout = (req, res) => {
   req.logout();

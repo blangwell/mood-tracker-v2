@@ -4,23 +4,26 @@ const startOfDay = require('date-fns/startOfDay');
 const parseISO = require('date-fns/parseISO');
 
 exports.getAllMoods = async (req, res) => {
-	let allMoods = await Mood.find({ userId: req.user.id });
+	let uid = process.env.NODE_ENV === "production" ?
+		req.user.id : "618daf6ecbe6b21869145f9e";
+	let allMoods = await Mood.find({ userId: uid });
 	res.json(allMoods);
 };
 
 exports.postMood = async (req, res) => {
 	// check if date entry already exists
 	// if so, update. if not, create
-	let tomorrow = new Date();
-	tomorrow.setDate(tomorrow.getDate() + 1);
+	let uid = process.env.NODE_ENV === "production" ?
+		req.user.id : "618daf6ecbe6b21869145f9e";
 
 	let todaysMood = await Mood.findOneAndUpdate({ 
-		userId: "618daf6ecbe6b21869145f9e",
+		userId: uid,
 		date: {
 			$gte: startOfDay(parseISO(req.body.date)),
 			$lt: endOfDay(parseISO(req.body.date))
 		}
 	}, {  
+		userId: uid,
 		date: req.body.date,
 		sleep: req.body.sleep,
 		depressed: req.body.depressed,

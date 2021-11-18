@@ -1,4 +1,4 @@
 exports.getHome = (req, res) => {
-	console.log(req.user);
-	res.send('GET home route');
+	// console.log(req.user);
+	res.json(req.user);
 };

@@ -1,7 +1,7 @@
 // require('dotenv').config();
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb://localhost:27017/mood-tracker-v2", {
+mongoose.connect(process.env.MONGO_URI_LOCAL, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 });
