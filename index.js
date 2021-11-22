@@ -13,7 +13,7 @@ const authControllers = require(path.join(__dirname, 'controllers', 'auth.js'));
 const moodControllers = require(path.join(__dirname, 'controllers', 'mood.js'));
 
 app.use(cors({
-	origin: 'http://localhost:8000',
+	origin: 'http://localhost:3000',
 	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 	credentials: true
 }));

@@ -10,6 +10,7 @@ const moodSchema = new mongoose.Schema({
 	anxious: Number,
 	psychotic: Boolean,
 	therapy: Boolean,
+	notes: String
 });
 
 const Mood = mongoose.model('Mood', moodSchema);
