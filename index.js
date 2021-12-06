@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const db = require(path.join(__dirname, 'models'));
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -41,7 +42,8 @@ app.get('/user', authControllers.getUser);
 app.get('/login', authControllers.getLogin);
 app.post('/login', authControllers.postLogin);
 app.get('/logout', authControllers.getLogout);
-app.post('/newuser', authControllers.postNewUser);
+// app.post('/newuser', authControllers.postNewUser);
+app.post('/signup', authControllers.postSignup);
 // app.post('/updateuser', authControllers.postUpdateUser);
 
 // mood endpoints

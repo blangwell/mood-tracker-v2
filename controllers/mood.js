@@ -4,8 +4,10 @@ const startOfDay = require('date-fns/startOfDay');
 const parseISO = require('date-fns/parseISO');
 
 exports.getAllMoods = async (req, res) => {
-	let uid = process.env.NODE_ENV === "production" ?
-		req.user.id : "618daf6ecbe6b21869145f9e";
+	// let uid = process.env.NODE_ENV === "production" ?
+		// req.user.id : "618daf6ecbe6b21869145f9e";
+	console.log(req);
+	let uid = req.user.id;
 	let allMoods = await Mood.find({ userId: uid });
 	res.json(allMoods);
 };
