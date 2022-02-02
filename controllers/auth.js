@@ -11,22 +11,6 @@ exports.getLogin = (req, res) => {
 	res.send('GET login route');
 };
 
-// exports.postLogin = (req, res, next) => {
-// 	passport.authenticate('local', (err, user, info) => {
-// 		if (err) { throw err; }
-// 		if (!user) {
-// 			console.log('NO USER', req.user);
-// 			res.send('');
-// 		} else {
-// 			req.logIn(user, err => {
-// 				if (err) { throw err; }
-// 				console.log(req.user);
-// 				res.json(req.user);
-// 			});
-// 		}
-// 	})(req, res, next);
-// }
-
 exports.getLogout = (req, res) => {
 	req.logout();
 	console.log('logged out!');
@@ -74,7 +58,7 @@ exports.postSignup = (req, res) => {
 
 			}
 		})
-}
+};
 
 exports.postLogin = (req, res) => {
 	User.findOne({ email: req.body.email })
@@ -103,7 +87,7 @@ exports.postLogin = (req, res) => {
 					});
 			}
 		});
-}
+};
 
 // exports.postUpdateUser = async (req, res) => {
 // 	console.log(req.user.id);
@@ -113,4 +97,20 @@ exports.postLogin = (req, res) => {
 // 	} catch (err) {
 // 		res.redirect('/login');
 // 	}
+// }
+
+// exports.postLogin = (req, res, next) => {
+// 	passport.authenticate('local', (err, user, info) => {
+// 		if (err) { throw err; }
+// 		if (!user) {
+// 			console.log('NO USER', req.user);
+// 			res.send('');
+// 		} else {
+// 			req.logIn(user, err => {
+// 				if (err) { throw err; }
+// 				console.log(req.user);
+// 				res.json(req.user);
+// 			});
+// 		}
+// 	})(req, res, next);
 // }

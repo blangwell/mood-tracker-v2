@@ -3,11 +3,15 @@ const endOfDay = require('date-fns/endOfDay');
 const startOfDay = require('date-fns/startOfDay');
 const parseISO = require('date-fns/parseISO');
 
+const jwt_decode = require('jwt-decode');
+
 exports.getAllMoods = async (req, res) => {
 	// let uid = process.env.NODE_ENV === "production" ?
 		// req.user.id : "618daf6ecbe6b21869145f9e";
-	console.log(req);
-	let uid = req.user.id;
+	let decoded = jwt_decode(req.headers.authorization);
+	let uid = decoded.id;
+	console.log(uid);
+	// let uid = req.user.id;
 	let allMoods = await Mood.find({ userId: uid });
 	res.json(allMoods);
 };
@@ -15,8 +19,8 @@ exports.getAllMoods = async (req, res) => {
 exports.postMood = async (req, res) => {
 	// check if date entry already exists
 	// if so, update. if not, create
-	let uid = process.env.NODE_ENV === "production" ?
-		req.user.id : "618daf6ecbe6b21869145f9e";
+	let decoded = jwt_decode(req.headers.authorization);
+	let uid = decoded.id;
 
 	let todaysMood = await Mood.findOneAndUpdate({ 
 		userId: uid,

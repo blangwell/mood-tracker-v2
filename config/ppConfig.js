@@ -1,5 +1,6 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
@@ -26,29 +27,6 @@ async function validPassword(password, foundPassword) {
 	}
 }
 
-module.exports = (passport) => {
-	passport.use(new LocalStrategy({ usernameField: 'email' },
-		function(email, password, done) {
-			User.findOne({ email: email }, function(err, foundUser) {
-				if (err) { 
-					return done(err); 
-				}
-				if (!foundUser) { 
-					return done(null, false, { message: "User not found!" });
-				}
-				if (!validPassword(password, foundUser.password)) {
-					console.log(foundUser);
-					return done(null, false, { message: "Incorrect password!" });
-				}
-				return done(null, foundUser);
-			});
-		}
-	));
-}
-
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-
 const options = {}
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.JWT_SECRET;
@@ -65,3 +43,24 @@ module.exports = passport => {
 		.catch(error => console.log(error));
 	}));
 }
+
+
+// module.exports = (passport) => {
+// 	passport.use(new LocalStrategy({ usernameField: 'email' },
+// 		function(email, password, done) {
+// 			User.findOne({ email: email }, function(err, foundUser) {
+// 				if (err) { 
+// 					return done(err); 
+// 				}
+// 				if (!foundUser) { 
+// 					return done(null, false, { message: "User not found!" });
+// 				}
+// 				if (!validPassword(password, foundUser.password)) {
+// 					console.log(foundUser);
+// 					return done(null, false, { message: "Incorrect password!" });
+// 				}
+// 				return done(null, foundUser);
+// 			});
+// 		}
+// 	));
+// }
